@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
 
-namespace Gbd.Sandbox.DuplicateFinder.Model
+namespace Gbd.Sandbox.DuplicateFinder.Forms.Model
 {
     class FullHash
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Gbd.Sandbox.DuplicateFinder.Forms.Model;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
