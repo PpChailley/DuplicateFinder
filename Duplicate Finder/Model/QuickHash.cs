@@ -51,8 +51,9 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                         .Inject(new{filename= fileInfo.FullName, size = readSize, value = BUFFER_FIRST_HALF_SIZE}));
                 }
 
-                long lastPartOffset =  fileInfo.Length - BUFFER_SECOND_HALF_SIZE;
-                readSize = f.Read(truncatedData, (int) lastPartOffset, BUFFER_SECOND_HALF_SIZE);
+                long lastPartOffset =  fileInfo.Length - BUFFER_SECOND_HALF_SIZE - 1;
+                f.Seek(-BUFFER_SECOND_HALF_SIZE, SeekOrigin.End);
+                readSize = f.Read(truncatedData, (int) BUFFER_FIRST_HALF_SIZE, BUFFER_SECOND_HALF_SIZE);
                 if (readSize != BUFFER_SECOND_HALF_SIZE)
                 {
                     throw new IOException(String.Format("Unexpected size read from file '{}': {} bytes at offset {} from size {}, expecting constant value {}", 

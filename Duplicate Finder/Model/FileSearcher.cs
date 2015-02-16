@@ -52,7 +52,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                         _baseDirectory.GetFiles("*", SearchOption.AllDirectories)
                         .Where(file => file.Exists))
             {
-                _fileList.Add(new DupeFileInfo(curFile));
+                var info = new DupeFileInfo(curFile);
+                _fileList.Add(info);
             }
 
             _log.Info("Found {} files in search directory", _fileList.Count);
@@ -81,10 +82,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             ComputeQuickHashes();
             ComputeFullHashes();
 
-
             // TODO: report progress
             // TODO: deal with cancellation
-            throw new NotImplementedException();
         }
 
         private void ComputeSizeHashes()

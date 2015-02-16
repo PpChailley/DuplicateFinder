@@ -15,7 +15,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms.Model
         public FullHash(FileInfo fileInfo)
         {
             _log.Debug("Creating FULL hash for '{}'", fileInfo.FullName);
-            _hash = _sha1.ComputeHash(new StreamReader(fileInfo.Name).BaseStream);
+            _hash = _sha1.ComputeHash(new StreamReader(fileInfo.FullName).BaseStream);
             _log.Debug("FULL Hash for '{}' is: {}", fileInfo.FullName, _hash);
         }
 
