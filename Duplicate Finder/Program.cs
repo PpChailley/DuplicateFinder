@@ -20,4 +20,6 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms
             Application.Run(new Form1());
         }
     }
+
+    // TODO: This is a git placeholder
 }
