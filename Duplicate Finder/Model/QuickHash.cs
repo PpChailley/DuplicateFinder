@@ -2,12 +2,15 @@
 using System.IO;
 using System.Security.Cryptography;
 using StringInject;
+using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
 
     class QuickHash
     {
+
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();    
 
         private const int BUFFER_SIZE = 4096;
         private const int BUFFER_FIRST_HALF_SIZE = BUFFER_SIZE / 2;
@@ -21,12 +24,15 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public QuickHash(FileInfo fileInfo)
         {
+            _log.Debug("Creating QUICK hash for file '{}' with size {} bytes", fileInfo.FullName, fileInfo.Length);
+
             var f = fileInfo.OpenRead();
-            
             byte[] truncatedData = new byte[BUFFER_SIZE];
 
             if (fileInfo.Length < BUFFER_SIZE)
             {
+                _log.Trace("Using full file for hashing");
+
                 var readSize = f.Read(truncatedData, 0, BUFFER_SIZE);
                 if (readSize != fileInfo.Length)
                 {
@@ -36,6 +42,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             }
             else
             {
+                _log.Trace("Using first and last chunk for hashing");
+
                 var readSize = f.Read(truncatedData, 0, BUFFER_FIRST_HALF_SIZE);
                 if (readSize != BUFFER_FIRST_HALF_SIZE)
                 {
@@ -53,6 +61,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             }
 
             _hash = _sha1.ComputeHash(truncatedData);
+
+            _log.Debug("QUICK hash for '{}' is: {}", fileInfo.FullName, _hash);
         }
 
      
