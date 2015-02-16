@@ -19,7 +19,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms.Forms
         {
             _fileSearcher.Reset()
                          .SetDirectory(this.comboBox1.Text)
-                         .BuildFileList();
+                         .BuildFileList(FileSearcher.Options.BgComputeHash);
 
             
             
