@@ -7,22 +7,26 @@
        internalLogFile="S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\NLog Internal.log"
        internalLogLevel="Info"
        internalLogToConsole="true"
+       autoFlush="true"
        >
   
   <targets>
-    <default-wrapper xsi:type="BufferingWrapper" bufferSize="100"/>
+    <!-- 
+      <default-wrapper xsi:type="BufferingWrapper" bufferSize="100"/>
+    -->
 
-    <target name="AssertTarget" xsi:type="Console" layout="${longdate}|${level}|${message}" />
+    <target name="AssertTarget" xsi:type="Console"/>
     
-    <target name="TraceLog" xsi:type="File" fileName="S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\Trace.log" deleteOldFileOnStartup="true"/>
-    <target name="InfoLog" xsi:type="File" fileName="S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\Info.log" deleteOldFileOnStartup="true"/>
-    <target name="console" xsi:type="Console" layout="${longdate}|${level}|${message}" />
+    <target name="TraceLog" xsi:type="File" fileName="S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\Trace.log" replaceFileContentsOnEachWrite="true" layout="${processTime}|${level}|${message}" />
+    
+    <!--
+    <target name="InfoLog" xsi:type="File" fileName="S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\Info.log" replaceFileContentsOnEachWrite="true" layout="${processTime}|${level}|${message}" />
+    <target name="console" xsi:type="Console" layout="${processTime}|${level}|${message}" />
+    -->
   </targets>
 
   <rules>
     <logger name="*" minlevel="Trace" writeTo="TraceLog" />
-    <logger name="*" minlevel="Info" writeTo="InfoLog" />
-    <logger name="*" minlevel="Info" writeTo="console" />
   </rules>
 
 </nlog>
