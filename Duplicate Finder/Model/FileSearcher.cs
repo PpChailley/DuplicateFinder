@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
@@ -24,7 +24,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         public FileSearcher Reset()
         {
             _baseDirectory = null;
-            _fileList = null;
+            _fileList = new List<DupeFileInfo>();
 
             _allFullHashesKnown = false;
             _allQuickHashesKnown = false;
@@ -39,12 +39,12 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         {
             _baseDirectory = new DirectoryInfo(newDirectory);
 
-            _log.Info("FileSearcher now working in directory '{}'", _baseDirectory.FullName);
+            _log.Info("FileSearcher now working in directory '{0}'", _baseDirectory.FullName);
 
             return this;
         }
 
-        public FileSearcher BuildFileList(Options options)
+        public FileSearcher BuildFileList(FileSearchOption options)
         {
             _log.Info("Start building file list");
 
@@ -56,9 +56,9 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 _fileList.Add(info);
             }
 
-            _log.Info("Found {} files in search directory", _fileList.Count);
+            _log.Info("Found {0} files in search directory", _fileList.Count);
 
-            if ((options & Options.BgComputeHash) != 0)
+            if ((options & FileSearchOption.BgComputeHash) != 0)
             {
                 _log.Trace("Option BgComputeHash is set: launching BG hashing");
                 // TODO: start hashing as soon as file is known (Size hashing should not generate IOs)
@@ -78,6 +78,13 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public void ComputeAllHashes(object sender, DoWorkEventArgs e)
         {
+            if (Thread.CurrentThread.Name == null)
+            {
+                Thread.CurrentThread.Name = "ComputeAllHashes";
+            }
+
+            _log.Info("Start (normally BG) routine ComputeAllHashes");
+
             ComputeSizeHashes();
             ComputeQuickHashes();
             ComputeFullHashes();
@@ -88,7 +95,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         private void ComputeSizeHashes()
         {
-            _log.Debug("Start computing SIZE hashes for all {} known files", _fileList.Count);
+            _log.Debug("Start computing SIZE hashes for all {0} known files", _fileList.Count);
 
             foreach (var file in _fileList.Where(f => f.SizeHashKnown == false))
             {
@@ -100,7 +107,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         private void ComputeQuickHashes()
         {
-            _log.Debug("Start computing QUICK hashes for all {} known files", _fileList.Count);
+            _log.Debug("Start computing QUICK hashes for all {0} known files", _fileList.Count);
 
             foreach (var file in _fileList.Where(f => f.QuickHashKnown == false))
             {
@@ -112,7 +119,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         private void ComputeFullHashes()
         {
-            _log.Debug("Start computing FULL hashes for all {} known files", _fileList.Count);
+            _log.Debug("Start computing FULL hashes for all {0} known files", _fileList.Count);
 
             foreach (var file in _fileList.Where(f => f.FullHashKnown == false))
             {
@@ -120,13 +127,6 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             }
 
             this._allFullHashesKnown = true;
-        }
-
-        [Flags]
-        public enum Options :  int
-        {
-            NoOption = 0,
-            BgComputeHash = 1,
         }
     }
 }

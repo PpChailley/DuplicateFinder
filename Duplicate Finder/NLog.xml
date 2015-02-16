@@ -21,15 +21,16 @@
             xsi:type="File" 
             fileName="S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\Trace.log" 
             deleteOldFileOnStartup="true" 
-            layout="${processtime} | ${logger:shortName=true} | ${level} | ${message}" />
-    
+            layout="${processtime} | ${logger:shortName=true} | ${threadname} | ${level} | ${message}" />
+
+    <!--
+
     <target name="InfoLog" 
             xsi:type="File" 
             fileName="S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\Info.log"
             deleteOldFileOnStartup="true"
             layout="${processtime} | ${logger:shortName=true} | ${level} | ${message}" />
 
-    <!--
     <target name="console" xsi:type="Console" layout="${processTime}|${level}|${message}" />
     -->
   </targets>

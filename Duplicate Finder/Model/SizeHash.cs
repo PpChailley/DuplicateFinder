@@ -12,11 +12,11 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public SizeHash(FileInfo fileInfo)
         {
-            _log.Debug("Computing SIZE hash for file '{}'", fileInfo.FullName);
+            _log.Debug("Computing SIZE hash for file '{0}'", fileInfo.Name);
 
             _fileSize = fileInfo.Length;
 
-            _log.Debug("SIZE hash for file '{}' is: {}", fileInfo.FullName, _fileSize);
+            _log.Debug("SIZE hash for file '{0}' is: {1}", fileInfo.Name, _fileSize);
         }
 
 

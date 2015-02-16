@@ -22,14 +22,14 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _log.Info("CLICK button '{}'", button1.Name);
+            _log.Info("CLICK button '{0}'", button1.Name);
 
             _log.Info("Start processing");
             _fileSearcher.Reset()
                          .SetDirectory(this.comboBox1.Text)
-                         .BuildFileList(FileSearcher.Options.BgComputeHash);
+                         .BuildFileList(FileSearchOption.BgComputeHash);
 
-            _log.Info("Finished button {} routine", button1.Name);
+            _log.Info("Finished button {0} routine", button1.Name);
             
         }
     }

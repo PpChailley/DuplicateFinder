@@ -24,7 +24,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public QuickHash(FileInfo fileInfo)
         {
-            _log.Debug("Creating QUICK hash for file '{}' with size {} bytes", fileInfo.FullName, fileInfo.Length);
+            _log.Debug("Creating QUICK hash for file '{0}' with size {1} bytes", fileInfo.Name, fileInfo.Length);
 
             var f = fileInfo.OpenRead();
             byte[] truncatedData = new byte[BUFFER_SIZE];
@@ -36,8 +36,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 var readSize = f.Read(truncatedData, 0, BUFFER_SIZE);
                 if (readSize != fileInfo.Length)
                 {
-                    throw new IOException(String.Format("Unexpected size read from file '{}': {} bytes from a file with size {}", 
-                        fileInfo.FullName, readSize, fileInfo.Length));
+                    throw new IOException(String.Format("Unexpected size read from file '{0}': {1} bytes from a file with size {2}",
+                        fileInfo.Name, readSize, fileInfo.Length));
                 }
             }
             else
@@ -47,8 +47,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 var readSize = f.Read(truncatedData, 0, BUFFER_FIRST_HALF_SIZE);
                 if (readSize != BUFFER_FIRST_HALF_SIZE)
                 {
-                    throw new IOException("Unexpected size read from file '{filename}': {size} bytes, expecting constant value {value}" 
-                        .Inject(new{filename= fileInfo.FullName, size = readSize, value = BUFFER_FIRST_HALF_SIZE}));
+                    throw new IOException("Unexpected size read from file '{filename}': {size} bytes, expecting constant value {value}"
+                        .Inject(new { filename = fileInfo.Name, size = readSize, value = BUFFER_FIRST_HALF_SIZE }));
                 }
 
                 long lastPartOffset =  fileInfo.Length - BUFFER_SECOND_HALF_SIZE - 1;
@@ -56,14 +56,14 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 readSize = f.Read(truncatedData, (int) BUFFER_FIRST_HALF_SIZE, BUFFER_SECOND_HALF_SIZE);
                 if (readSize != BUFFER_SECOND_HALF_SIZE)
                 {
-                    throw new IOException(String.Format("Unexpected size read from file '{}': {} bytes at offset {} from size {}, expecting constant value {}", 
-                        fileInfo.FullName, readSize, lastPartOffset, fileInfo.Length, BUFFER_SECOND_HALF_SIZE));
+                    throw new IOException(String.Format("Unexpected size read from file '{0}': {1} bytes at offset {2} from size {3}, expecting constant value {4}",
+                        fileInfo.Name, readSize, lastPartOffset, fileInfo.Length, BUFFER_SECOND_HALF_SIZE));
                 }
             }
 
             _hash = _sha1.ComputeHash(truncatedData);
 
-            _log.Debug("QUICK hash for '{}' is: {}", fileInfo.FullName, _hash);
+            _log.Debug("QUICK hash for '{0}' is: {1}", fileInfo.Name, Convert.ToBase64String(_hash));
         }
 
      
