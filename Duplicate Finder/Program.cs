@@ -39,10 +39,11 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms
             {
                 throw new Exception("NLog is not configured !!");
             }
+
+            _log.Info("Logger seems to work OK");
         }
     }
 
-    // TODO: This is a git placeholder
     // PLACEHOLDER
 
 
