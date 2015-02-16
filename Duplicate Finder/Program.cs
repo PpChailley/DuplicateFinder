@@ -27,6 +27,6 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms
     }
 
     // TODO: This is a git placeholder
-    // TODO: Another placeholder
+
 
 }
