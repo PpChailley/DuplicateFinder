@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
+using StringInject;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
@@ -20,7 +21,6 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public QuickHash(FileInfo fileInfo)
         {
-
             var f = fileInfo.OpenRead();
             
             byte[] truncatedData = new byte[BUFFER_SIZE];
@@ -39,8 +39,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 var readSize = f.Read(truncatedData, 0, BUFFER_FIRST_HALF_SIZE);
                 if (readSize != BUFFER_FIRST_HALF_SIZE)
                 {
-                    throw new IOException(String.Format("Unexpected size read from file '{}': {} bytes, expecting constant value {}", 
-                        fileInfo.FullName, readSize, BUFFER_FIRST_HALF_SIZE));
+                    throw new IOException("Unexpected size read from file '{filename}': {size} bytes, expecting constant value {value}" 
+                        .Inject(new{filename= fileInfo.FullName, size = readSize, value = BUFFER_FIRST_HALF_SIZE}));
                 }
 
                 long lastPartOffset =  fileInfo.Length - BUFFER_SECOND_HALF_SIZE;
