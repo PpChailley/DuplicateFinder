@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<nlog  xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       autoReload="true"
+       throwExceptions="true"
+       internalLogFile="S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\NLog Internal.log"
+       internalLogLevel="Info"
+       internalLogToConsole="true"
+       >
+  
+  <targets>
+    <default-wrapper xsi:type="BufferingWrapper" bufferSize="100"/>
+
+    <target name="AssertTarget" xsi:type="Console" layout="${longdate}|${level}|${message}" />
+    
+    <target name="TraceLog" xsi:type="File" fileName="S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\Trace.log" deleteOldFileOnStartup="true"/>
+    <target name="InfoLog" xsi:type="File" fileName="S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\Info.log" deleteOldFileOnStartup="true"/>
+    <target name="console" xsi:type="Console" layout="${longdate}|${level}|${message}" />
+  </targets>
+
+  <rules>
+    <logger name="*" minlevel="Trace" writeTo="TraceLog" />
+    <logger name="*" minlevel="Info" writeTo="InfoLog" />
+    <logger name="*" minlevel="Info" writeTo="console" />
+  </rules>
+
+</nlog>
