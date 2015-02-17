@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -29,10 +28,12 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             _fileList = new List<DupeFileInfo>();
             _similars = null;
 
-            _allHashesDoneByType = new Dictionary<HashingType, bool>();
-            _allHashesDoneByType.Add(HashingType.FullHashing, false);
-            _allHashesDoneByType.Add(HashingType.QuickHashing, false);
-            _allHashesDoneByType.Add(HashingType.SizeHashing, false);
+            _allHashesDoneByType = new Dictionary<HashingType, bool>
+            {
+                {HashingType.FullHashing, false},
+                {HashingType.QuickHashing, false},
+                {HashingType.SizeHashing, false}
+            };
         }
 
 
@@ -81,7 +82,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         {
 
             _log.Warn("*** SLEEPING TO WAIT FOR BG HASH COMPLETION ***");
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             _log.Warn("*** WAKING FROM SLEEP ***");
 
 
@@ -95,7 +96,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         private void StartBgHashing()
         {
             BackgroundWorker worker = new BackgroundWorker();
-            worker.DoWork += new DoWorkEventHandler(ProcessHashing);
+            worker.DoWork += ProcessHashing;
             // TODO: report progress delegate
             worker.RunWorkerAsync();
         }

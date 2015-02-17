@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
-using Gbd.Sandbox.DuplicateFinder.Model;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model

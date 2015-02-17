@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
@@ -31,33 +29,19 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             foreach (var file in sortedFiles)
             {
                 var currentHash = file.GetOrComputeHash(hashingType);
+
                 if (currentHash.CompareTo(currentGroupHash) == 0)
                 {
-                    _log.Trace("Hash '{0}' goes to same group '{1}'", 
-                        currentHash, 
-                        GCHandle.ToIntPtr(GCHandle.Alloc(currentFileGroup, GCHandleType.WeakTrackResurrection)).ToInt32());
                     currentFileGroup.Add(file);
                 }
                 else
                 {
-                    _log.Trace("Group ({1}) is full with {0} similar files",
-                        currentFileGroup.Count,
-                        GCHandle.ToIntPtr(GCHandle.Alloc(currentFileGroup, GCHandleType.WeakTrackResurrection)).ToInt32());
-
-                    Add(currentFileGroup);
-                    currentFileGroup = new HashSet<DupeFileInfo>();
-
-                    _log.Trace("Hash '{0}' goes to new group '{1}'", 
-                        currentHash, 
-                        GCHandle.ToIntPtr(GCHandle.Alloc(currentFileGroup, GCHandleType.WeakTrackResurrection)).ToInt32());
-                    currentFileGroup.Add(file);
+                    this.Add(currentFileGroup);
+                    currentFileGroup = new HashSet<DupeFileInfo> {file};
                     currentGroupHash = currentHash;
                 }
             }
-            _log.Trace("Last Group ({0}) has last element - Commiting group with {1} similar files",
-                GCHandle.ToIntPtr(GCHandle.Alloc(currentFileGroup, GCHandleType.WeakTrackResurrection)).ToInt32(),
-                currentFileGroup.Count);
-            Add(currentFileGroup);
+            this.Add(currentFileGroup);
 
             _log.Info("Found {0} different file sets for {1} files using {2} hash type", this.Count, sortedFiles.Count, hashingType);
 

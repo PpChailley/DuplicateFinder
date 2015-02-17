@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Security.Policy;
-using Gbd.Sandbox.DuplicateFinder.Model;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {

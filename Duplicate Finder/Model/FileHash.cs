@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Gbd.Sandbox.DuplicateFinder.Model
+﻿namespace Gbd.Sandbox.DuplicateFinder.Model
 {
     public abstract class FileHash: IFileHash
     {
