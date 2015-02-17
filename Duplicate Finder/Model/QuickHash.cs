@@ -1,13 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
-using StringInject;
+using Gbd.Sandbox.DuplicateFinder.External;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
-
-    class QuickHash
+    public class QuickHash: FileHash, IFileHash
     {
 
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();    

@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
-    class SizeHash : FileHash
+    public class SizeHash : FileHash , IFileHash
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();    
 

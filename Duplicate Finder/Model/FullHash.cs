@@ -3,9 +3,9 @@ using System.IO;
 using System.Security.Cryptography;
 using NLog;
 
-namespace Gbd.Sandbox.DuplicateFinder.Forms.Model
+namespace Gbd.Sandbox.DuplicateFinder.Model
 {
-    class FullHash
+    public class FullHash: FileHash, IFileHash
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();    
 
