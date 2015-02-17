@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\SimilarFileGroup.cs" />
     <Compile Include="Tools\StringinjectExtension.cs" />
     <Compile Include="UI\FormMain.cs">
       <SubType>Form</SubType>
