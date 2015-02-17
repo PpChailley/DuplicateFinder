@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
@@ -19,5 +20,13 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         }
 
 
+        public override int CompareTo(IFileHash other)
+        {
+            var you = (SizeHash) other;
+            int myFileSize = (int)_fileSize;
+            int yourFileSize = (int)you._fileSize;
+
+            return (yourFileSize - myFileSize);
+        }
     }
 }

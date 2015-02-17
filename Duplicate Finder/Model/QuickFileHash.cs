@@ -6,7 +6,7 @@ using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
-    public class QuickHash: FileHash, IFileHash
+    public class QuickFileHash: Sha1FileHash, IFileHash
     {
 
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();    
@@ -16,12 +16,11 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         private const int BUFFER_SECOND_HALF_SIZE = BUFFER_SIZE - BUFFER_FIRST_HALF_SIZE;
 
 
-        private readonly SHA1 _sha1 = new SHA1Cng();
-        private byte[] _hash;
+        private readonly SHA1 _sha1Engine = new SHA1Cng();
         
 
 
-        public QuickHash(FileInfo fileInfo)
+        public QuickFileHash(FileInfo fileInfo)
         {
             _log.Debug("Creating QUICK hash for file '{0}' with size {1} bytes", fileInfo.Name, fileInfo.Length);
 
@@ -60,11 +59,12 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 }
             }
 
-            _hash = _sha1.ComputeHash(truncatedData);
+            Hash = _sha1Engine.ComputeHash(truncatedData);
 
-            _log.Debug("QUICK hash for '{0}' is: {1}", fileInfo.Name, Convert.ToBase64String(_hash));
+            _log.Debug("QUICK hash for '{0}' is: {1}", fileInfo.Name, Convert.ToBase64String(Hash));
         }
 
-     
+
+
     }
 }

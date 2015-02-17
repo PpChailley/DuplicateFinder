@@ -66,11 +66,12 @@
     <Compile Include="Model\FileSearchOption.cs" />
     <Compile Include="Model\HashingType.cs" />
     <Compile Include="Model\IFilehash.cs" />
-    <Compile Include="Model\FullHash.cs" />
+    <Compile Include="Model\FullFileHash.cs" />
+    <Compile Include="Model\Sha1FileHash.cs" />
     <Compile Include="Model\SimilarFileSet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\QuickHash.cs" />
+    <Compile Include="Model\QuickFileHash.cs" />
     <Compile Include="Model\SizeHash.cs" />
     <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

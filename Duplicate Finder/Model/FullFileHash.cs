@@ -6,7 +6,7 @@ using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
-    public class FullHash: FileHash, IFileHash
+    public class FullFileHash: Sha1FileHash, IFileHash
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();    
 
@@ -14,7 +14,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         private byte[] _hash;
 
 
-        public FullHash(FileInfo fileInfo)
+        public FullFileHash(FileInfo fileInfo)
         {
             _log.Trace("Creating FULL hash for '{0}'", fileInfo.Name);
             _hash = _sha1.ComputeHash(new StreamReader(fileInfo.FullName).BaseStream);

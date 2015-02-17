@@ -11,8 +11,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         readonly FileInfo _fileInfo;
 
         private SizeHash _sizeHash;
-        private QuickHash _quickHash;
-        private FullHash _fullHash;
+        private QuickFileHash _quickFileHash;
+        private FullFileHash _fullFileHash;
 
 
         public DupeFileInfo(FileInfo fileInfo)
@@ -21,31 +21,15 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         }
 
 
-
-        public void ComputeSizeHash()
-        {
-            _sizeHash = new SizeHash(_fileInfo);
-        }
-        public void ComputeQuickHash()
-        {
-            _quickHash = new QuickHash(_fileInfo);
-        }
-        public void ComputeFullHash()
-        {
-            _fullHash = new FullHash(_fileInfo);
-        }
-
-
-
         public IFileHash GetOrComputeHash(HashingType hashingType)
         {
             switch (hashingType)
             {
                 case HashingType.Fullhashing:
-                    return _fullHash ?? (_fullHash = new FullHash(_fileInfo));
+                    return _fullFileHash ?? (_fullFileHash = new FullFileHash(_fileInfo));
 
                 case HashingType.QuickHashing:
-                    return _quickHash ?? (_quickHash = new QuickHash(_fileInfo));
+                    return _quickFileHash ?? (_quickFileHash = new QuickFileHash(_fileInfo));
 
                 case HashingType.SizeHashing:
                     return _sizeHash ?? (_sizeHash = new SizeHash(_fileInfo));

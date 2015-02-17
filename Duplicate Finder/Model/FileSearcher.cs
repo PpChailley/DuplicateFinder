@@ -81,14 +81,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         {
             _log.Debug("Start building sorted list for {0} hashing", hashingType);
 
-            var sortedHashes = new SortedList<IFileHash, DupeFileInfo>(_fileList.Count);
-            foreach (var file in _fileList)
-            {
-                var hash = file.GetOrComputeHash(hashingType);
-                sortedHashes.Add(hash, file);
-            }
-
-            _similars = new SimilarFileSet(sortedHashes, hashingType);
+            _similars = new SimilarFileSet(_fileList, hashingType);
 
             return this;
         }
