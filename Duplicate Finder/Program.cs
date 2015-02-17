@@ -45,6 +45,6 @@ namespace Gbd.Sandbox.DuplicateFinder
     }
 
     // PLACEHOLDER
-
+    // Placeholder
 
 }
