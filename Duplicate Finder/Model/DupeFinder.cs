@@ -31,7 +31,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         
 
-        private SimilarFileSet _similars;
+        private SimilarityMap _similars;
         private IDictionary<HashingType, bool> _allHashesDoneByType;
 
 
@@ -91,7 +91,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
             Log.Debug("Start building sorted list for {0} hashing", hashingType);
 
-            _similars = new SimilarFileSet(_searcher.FileList, hashingType);
+            _similars = new SimilarityMap(_searcher.FileList, hashingType);
 
             return this;
         }

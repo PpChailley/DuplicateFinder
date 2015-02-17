@@ -4,14 +4,15 @@ using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
-    public class SimilarFileSet : HashSet<HashSet<DupeFileInfo>>
+    public class SimilarityMap
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();    
+        private HashSet<SimilarFileGroup> _map;
 
         public HashingType HashingType { get; private set; }
 
-        public SimilarFileSet(ICollection <DupeFileInfo> files, HashingType hashingType)
+        public SimilarityMap(IEnumerable<DupeFileInfo> files, HashingType hashingType)
         {
             this.HashingType = hashingType;
 
@@ -25,7 +26,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             Log.Debug("Building similar file sets for {0} files", sortedFiles.Count);
 
             IFileHash currentGroupHash = null;
-            var currentFileGroup = new HashSet<DupeFileInfo>();
+            var currentFileGroup = new SimilarFileGroup();
 
             foreach (var file in sortedFiles)
             {
@@ -37,18 +38,18 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 }
                 else
                 {
-                    this.Add(currentFileGroup);
-                    currentFileGroup = new HashSet<DupeFileInfo> {file};
+                    _map.Add(currentFileGroup);
+                    currentFileGroup = new SimilarFileGroup { file };
                     currentGroupHash = currentHash;
                 }
             }
-            this.Add(currentFileGroup);
+            _map.Add(currentFileGroup);
 
-            Log.Info("Found {0} different file sets for {1} files using {2} hash type", this.Count, sortedFiles.Count, hashingType);
+            Log.Info("Found {0} different file sets for {1} files using {2} hash type", _map.Count, sortedFiles.Count, hashingType);
 
         }
 
-        private static IList<DupeFileInfo> BuildFileSortedList(ICollection<DupeFileInfo> files, HashingType hashingType)
+        private static IList<DupeFileInfo> BuildFileSortedList(IEnumerable<DupeFileInfo> files, HashingType hashingType)
         {
             Log.Debug("Creating sorted list of files, using hashing {0}", hashingType);
 

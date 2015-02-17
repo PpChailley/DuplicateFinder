@@ -71,7 +71,7 @@
     <Compile Include="Model\Hashing\FullFileHash.cs" />
     <Compile Include="Model\SearchOptions.cs" />
     <Compile Include="Model\Hashing\Sha1FileHash.cs" />
-    <Compile Include="Model\SimilarFileSet.cs" />
+    <Compile Include="Model\SimilarityMap.cs" />
     <Compile Include="Model\Workers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
