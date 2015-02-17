@@ -18,6 +18,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         public DupeFileInfo(FileInfo fileInfo)
         {
             FileInfo = fileInfo;
+            _sizeHash = new SizeHash(fileInfo);
         }
 
 
@@ -37,7 +38,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                         return _sizeHash ?? (_sizeHash = new SizeHash(FileInfo));
 
                     default:
-                        throw new InvalidEnumArgumentException(String.Format("Unsupported ProcessHashing mode {0}",
+                        throw new InvalidEnumArgumentException(String.Format("Unsupported WorkerDoHashing mode {0}",
                             hashingType));
 
                 }

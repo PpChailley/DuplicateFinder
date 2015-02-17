@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 using Gbd.Sandbox.DuplicateFinder.Model;
@@ -7,25 +8,40 @@ using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Forms
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
 
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         readonly FileSearcher _fileSearcher = new FileSearcher();
 
-        public Form1()
+        public FormMain()
         {
             _log.Debug("Base Form constructing");
             InitializeComponent();
             _log.Debug("Base Form constructed");
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void DoSearching(object sender, EventArgs e)
         {
-            _log.Info("CLICK button '{0}'", button1.Name);
+            _log.Info("CLICK button '{0}'", cbSearch.Name);
 
-            DupeFinder.Finder.SearchPath = new DirectoryInfo(cbSearchPath.Text);
+            _log.Trace("Initializing engine");
+            DupeFinder finder = DupeFinder.Finder.Initialize(txtSearchPath.Text);
+
+            _log.Trace("Creating Background workers");
+            BackgroundWorker bgSearch = new BackgroundWorker();
+            bgSearch.DoWork += Workers.WorkerSearchForFiles;
+
+            BackgroundWorker bgHash = new BackgroundWorker();
+            bgHash.DoWork += Workers.WorkerDoHashing;
+
+            BackgroundWorker bgGroup = new BackgroundWorker();
+            bgHash.DoWork += Workers.WorkerGroupFiles;
+
+/*
+            finder.SearchForFiles();
+            finder.
 
             // TODO: cleanup this shitty datapath - single responsability !
             _log.Info("Start processing");
@@ -36,8 +52,9 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms
             _fileSearcher.CompareHashes(HashingType.SizeHashing);
             _fileSearcher.CompareHashes(HashingType.QuickHashing);
             _fileSearcher.CompareHashes(HashingType.FullHashing);
+ * */
 
-            _log.Info("Finished button {0} routine", button1.Name);
+            _log.Info("Finished button {0} routine", cbSearch.Name);
             
         }
 
