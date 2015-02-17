@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
-using Gbd.Sandbox.DuplicateFinder.External;
+using Gbd.Sandbox.DuplicateFinder.Tools;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model.Hashing

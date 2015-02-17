@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 
 [assembly: CLSCompliant(true)]
-namespace Gbd.Sandbox.DuplicateFinder.External
+namespace Gbd.Sandbox.DuplicateFinder.Tools
 {
     public static class StringInjectExtension
     {

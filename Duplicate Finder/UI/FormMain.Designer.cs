@@ -1,4 +1,4 @@
-namespace Gbd.Sandbox.DuplicateFinder.Forms
+namespace Gbd.Sandbox.DuplicateFinder.UI
 {
     partial class FormMain
     {

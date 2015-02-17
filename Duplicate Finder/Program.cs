@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Gbd.Sandbox.DuplicateFinder.Forms;
+using Gbd.Sandbox.DuplicateFinder.UI;
 using NLog;
 using NLog.Config;
 
