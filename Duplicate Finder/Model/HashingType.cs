@@ -4,6 +4,6 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
     {
         SizeHashing,
         QuickHashing,
-        Fullhashing
+        FullHashing
     }
 }
