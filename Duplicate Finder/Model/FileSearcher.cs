@@ -9,7 +9,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 {
     public class FileSearcher
     {
-        private static readonly Logger _log = LogManager.GetCurrentClassLogger();    
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();    
 
         private DirectoryInfo _baseDirectory;
         private ICollection<DupeFileInfo> _fileList;
@@ -40,7 +40,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         public FileSearcher Reset()
         {
             Initialize();
-            _log.Info("Reset of FileSearcher successful");
+            Log.Info("Reset of FileSearcher successful");
             return this;
         }
 
@@ -49,14 +49,14 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         {
             _baseDirectory = new DirectoryInfo(newDirectory);
 
-            _log.Info("FileSearcher now working in directory '{0}'", _baseDirectory.FullName);
+            Log.Info("FileSearcher now working in directory '{0}'", _baseDirectory.FullName);
 
             return this;
         }
 
         public FileSearcher BuildFileList(FileSearchOption options)
         {
-            _log.Info("Start building file list");
+            Log.Info("Start building file list");
 
             foreach (var curFile in 
                         _baseDirectory.GetFiles("*", SearchOption.AllDirectories)
@@ -66,11 +66,11 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 _fileList.Add(info);
             }
 
-            _log.Info("Found {0} files in search directory", _fileList.Count);
+            Log.Info("Found {0} files in search directory", _fileList.Count);
 
             if ((options & FileSearchOption.BgComputeHash) != 0)
             {
-                _log.Trace("Option BgComputeHash is set: launching BG hashing");
+                Log.Trace("Option BgComputeHash is set: launching BG hashing");
                 // TODO: start hashing as soon as file is known (Size hashing should not generate IOs)
                 this.StartBgHashing();
             }
@@ -81,12 +81,12 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         public FileSearcher CompareHashes(HashingType hashingType)
         {
 
-            _log.Warn("*** SLEEPING TO WAIT FOR BG HASH COMPLETION ***");
+            Log.Warn("*** SLEEPING TO WAIT FOR BG HASH COMPLETION ***");
             Thread.Sleep(100);
-            _log.Warn("*** WAKING FROM SLEEP ***");
+            Log.Warn("*** WAKING FROM SLEEP ***");
 
 
-            _log.Debug("Start building sorted list for {0} hashing", hashingType);
+            Log.Debug("Start building sorted list for {0} hashing", hashingType);
 
             _similars = new SimilarFileSet(_fileList, hashingType);
 
@@ -108,7 +108,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 Thread.CurrentThread.Name = "ProcessHashing";
             }
 
-            _log.Info("Start (normally BG) routine ProcessHashing");
+            Log.Info("Start (normally BG) routine ProcessHashing");
 
             ComputeHashes(HashingType.SizeHashing);
             ComputeHashes(HashingType.QuickHashing);
@@ -122,7 +122,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         private void ComputeHashes(HashingType hashingType)
         {
-            _log.Debug("Start computing {1} hashes for all {0} known files", _fileList.Count, hashingType);
+            Log.Debug("Start computing {1} hashes for all {0} known files", _fileList.Count, hashingType);
 
             foreach (var file in _fileList.Where(f => f.GetOrComputeHash(hashingType) == null))
             {
@@ -130,7 +130,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             }
 
             _allHashesDoneByType[hashingType] = true;
-            _log.Debug("Done computing {1} hashes for all {0} known files", _fileList.Count, hashingType);
+            Log.Debug("Done computing {1} hashes for all {0} known files", _fileList.Count, hashingType);
         }
 
 

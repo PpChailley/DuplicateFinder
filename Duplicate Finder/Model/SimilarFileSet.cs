@@ -6,7 +6,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
     public class SimilarFileSet : HashSet<HashSet<DupeFileInfo>>
     {
 
-        private static readonly Logger _log = LogManager.GetCurrentClassLogger();    
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();    
 
         public HashingType HashingType { get; private set; }
 
@@ -21,7 +21,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         private void BuildFileGroups(HashingType hashingType, IList<DupeFileInfo> sortedFiles)
         {
-            _log.Debug("Building similar file sets for {0} files", sortedFiles.Count);
+            Log.Debug("Building similar file sets for {0} files", sortedFiles.Count);
 
             IFileHash currentGroupHash = null;
             var currentFileGroup = new HashSet<DupeFileInfo>();
@@ -43,19 +43,19 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             }
             this.Add(currentFileGroup);
 
-            _log.Info("Found {0} different file sets for {1} files using {2} hash type", this.Count, sortedFiles.Count, hashingType);
+            Log.Info("Found {0} different file sets for {1} files using {2} hash type", this.Count, sortedFiles.Count, hashingType);
 
         }
 
         private static IList<DupeFileInfo> BuildFileSortedList(ICollection<DupeFileInfo> files, HashingType hashingType)
         {
-            _log.Debug("Creating sorted list of files, using hashing {0}", hashingType);
+            Log.Debug("Creating sorted list of files, using hashing {0}", hashingType);
 
 
             var sortedFiles = new List<DupeFileInfo>(files);
             sortedFiles.Sort((a, b) => a.GetOrComputeHash(hashingType).CompareTo(b.GetOrComputeHash(hashingType)));
 
-            _log.Debug("Created sorted list of files, using hashing {0}", hashingType);
+            Log.Debug("Created sorted list of files, using hashing {0}", hashingType);
             return sortedFiles;
         }
     }
