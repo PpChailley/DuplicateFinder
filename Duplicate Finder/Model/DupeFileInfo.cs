@@ -23,21 +23,30 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public IFileHash GetOrComputeHash(HashingType hashingType)
         {
-            switch (hashingType)
+            lock (this)
             {
-                case HashingType.Fullhashing:
-                    return _fullFileHash ?? (_fullFileHash = new FullFileHash(_fileInfo));
+                switch (hashingType)
+                {
+                    case HashingType.FullHashing:
+                        return _fullFileHash ?? (_fullFileHash = new FullFileHash(_fileInfo));
 
-                case HashingType.QuickHashing:
-                    return _quickFileHash ?? (_quickFileHash = new QuickFileHash(_fileInfo));
+                    case HashingType.QuickHashing:
+                        return _quickFileHash ?? (_quickFileHash = new QuickFileHash(_fileInfo));
 
-                case HashingType.SizeHashing:
-                    return _sizeHash ?? (_sizeHash = new SizeHash(_fileInfo));
+                    case HashingType.SizeHashing:
+                        return _sizeHash ?? (_sizeHash = new SizeHash(_fileInfo));
 
-                default:
-                    throw new InvalidEnumArgumentException(String.Format("Unsupported ProcessHashing mode {0}", hashingType));
+                    default:
+                        throw new InvalidEnumArgumentException(String.Format("Unsupported ProcessHashing mode {0}",
+                            hashingType));
 
+                }
             }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0}: {1}", this.GetType().Name, GetHashCode());
         }
     }
 }

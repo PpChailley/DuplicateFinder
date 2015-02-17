@@ -30,7 +30,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             _similars = null;
 
             _allHashesDoneByType = new Dictionary<HashingType, bool>();
-            _allHashesDoneByType.Add(HashingType.Fullhashing, false);
+            _allHashesDoneByType.Add(HashingType.FullHashing, false);
             _allHashesDoneByType.Add(HashingType.QuickHashing, false);
             _allHashesDoneByType.Add(HashingType.SizeHashing, false);
         }
@@ -79,6 +79,12 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public FileSearcher CompareHashes(HashingType hashingType)
         {
+
+            _log.Warn("*** SLEEPING TO WAIT FOR BG HASH COMPLETION ***");
+            System.Threading.Thread.Sleep(100);
+            _log.Warn("*** WAKING FROM SLEEP ***");
+
+
             _log.Debug("Start building sorted list for {0} hashing", hashingType);
 
             _similars = new SimilarFileSet(_fileList, hashingType);
@@ -105,7 +111,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
             ComputeHashes(HashingType.SizeHashing);
             ComputeHashes(HashingType.QuickHashing);
-            ComputeHashes(HashingType.Fullhashing);
+            ComputeHashes(HashingType.FullHashing);
 
 
 

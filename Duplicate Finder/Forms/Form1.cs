@@ -29,6 +29,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms
                          .BuildFileList(FileSearchOption.BgComputeHash);
 
             _fileSearcher.CompareHashes(HashingType.SizeHashing);
+            _fileSearcher.CompareHashes(HashingType.QuickHashing);
+            _fileSearcher.CompareHashes(HashingType.FullHashing);
 
             _log.Info("Finished button {0} routine", button1.Name);
             

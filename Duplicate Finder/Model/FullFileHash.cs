@@ -11,17 +11,14 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();    
 
         private readonly SHA1 _sha1 = new SHA1Cng();
-        private byte[] _hash;
 
 
         public FullFileHash(FileInfo fileInfo)
         {
             _log.Trace("Creating FULL hash for '{0}'", fileInfo.Name);
-            _hash = _sha1.ComputeHash(new StreamReader(fileInfo.FullName).BaseStream);
-            _log.Debug("FULL Hash for '{0}' is: {1}", fileInfo.Name, Convert.ToBase64String(_hash));
+            Hash = _sha1.ComputeHash(new StreamReader(fileInfo.FullName).BaseStream);
+            _log.Debug("FULL Hash for '{0}' is: {1}", fileInfo.Name, Convert.ToBase64String(Hash));
         }
-
-
 
     }
 }

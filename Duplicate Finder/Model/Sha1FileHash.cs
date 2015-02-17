@@ -1,3 +1,5 @@
+using System;
+
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
     public abstract class Sha1FileHash: FileHash
@@ -7,9 +9,12 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public override int CompareTo(IFileHash other)
         {
+            if (other == null)
+                return -1;
+            
             // TODO: Unit test this method
 
-            QuickFileHash that = (QuickFileHash)other;
+            Sha1FileHash that = (Sha1FileHash)other;
 
             int index = 0;
             foreach (var b in that.Hash)
@@ -24,6 +29,16 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
             return that.Hash.Length - this.Hash.Length;
         }
+
+
+
+        public override string ToString()
+        {
+            return String.Format("{0} : {1}", 
+                    GetType().Name,
+                    Hash == null ? "null" : Convert.ToBase64String(Hash));
+        }
+
 
     }
 }
