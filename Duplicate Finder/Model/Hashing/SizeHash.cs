@@ -2,7 +2,7 @@
 using System.IO;
 using NLog;
 
-namespace Gbd.Sandbox.DuplicateFinder.Model
+namespace Gbd.Sandbox.DuplicateFinder.Model.Hashing
 {
     public class SizeHash : FileHash , IFileHash
     {

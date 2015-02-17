@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using Gbd.Sandbox.DuplicateFinder.External;
 using NLog;
 
-namespace Gbd.Sandbox.DuplicateFinder.Model
+namespace Gbd.Sandbox.DuplicateFinder.Model.Hashing
 {
     public class QuickFileHash: Sha1FileHash, IFileHash
     {

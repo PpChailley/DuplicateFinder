@@ -10,7 +10,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
     public class DupeFinder
     {
 
-        public static DupeFinder Finder { get; } = new DupeFinder();
+        public static DupeFinder Finder  = new DupeFinder();
 
 
         public DirectoryInfo SearchPath;

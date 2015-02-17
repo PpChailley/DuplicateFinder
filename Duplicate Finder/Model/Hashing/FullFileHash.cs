@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using NLog;
 
-namespace Gbd.Sandbox.DuplicateFinder.Model
+namespace Gbd.Sandbox.DuplicateFinder.Model.Hashing
 {
     public class FullFileHash: Sha1FileHash, IFileHash
     {

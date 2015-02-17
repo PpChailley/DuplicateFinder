@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Gbd.Sandbox.DuplicateFinder.Model.Hashing;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model

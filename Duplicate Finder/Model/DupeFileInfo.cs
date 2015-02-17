@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using Gbd.Sandbox.DuplicateFinder.Model.Hashing;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {

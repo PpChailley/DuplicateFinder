@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using Gbd.Sandbox.DuplicateFinder.Model.Hashing;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
