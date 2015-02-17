@@ -10,9 +10,9 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
     {
         readonly FileInfo _fileInfo;
 
-        public SizeHash SizeHash { get; private set; }
-        public QuickHash QuickHash { get; private set; }
-        public FullHash FullHash { get; private set; }
+        private SizeHash _sizeHash;
+        private QuickHash _quickHash;
+        private FullHash _fullHash;
 
 
         public DupeFileInfo(FileInfo fileInfo)
@@ -24,30 +24,35 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public void ComputeSizeHash()
         {
-            SizeHash = new SizeHash(_fileInfo);
+            _sizeHash = new SizeHash(_fileInfo);
         }
         public void ComputeQuickHash()
         {
-            QuickHash = new QuickHash(_fileInfo);
+            _quickHash = new QuickHash(_fileInfo);
         }
         public void ComputeFullHash()
         {
-            FullHash = new FullHash(_fileInfo);
+            _fullHash = new FullHash(_fileInfo);
         }
 
 
-        public object GetHash(HashingType hashingType)
+
+        public IFileHash GetOrComputeHash(HashingType hashingType)
         {
             switch (hashingType)
             {
-                case HashingType.SizeHashing:
-                    return SizeHash;
-                case HashingType.QuickHashing:
-                    return QuickHash;
                 case HashingType.Fullhashing:
-                    return FullHash;
+                    return _fullHash ?? (_fullHash = new FullHash(_fileInfo));
+
+                case HashingType.QuickHashing:
+                    return _quickHash ?? (_quickHash = new QuickHash(_fileInfo));
+
+                case HashingType.SizeHashing:
+                    return _sizeHash ?? (_sizeHash = new SizeHash(_fileInfo));
+
                 default:
-                    throw new InvalidEnumArgumentException(String.Format("Unsupported Hashing mode {0}", hashingType));
+                    throw new InvalidEnumArgumentException(String.Format("Unsupported ProcessHashing mode {0}", hashingType));
+
             }
         }
     }

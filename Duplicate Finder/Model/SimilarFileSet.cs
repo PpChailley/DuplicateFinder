@@ -21,7 +21,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
             foreach (var file in sortedFiles)
             {
-                var currentHash = file.Value.GetHash(hashingType);
+                var currentHash = file.Value.GetOrComputeHash(hashingType);
                 if (currentHash.Equals(currentGroupHash))
                 {
                     _log.Trace("Hash '{0}' goes to same group '{1}'", currentHash, currentFileGroup);

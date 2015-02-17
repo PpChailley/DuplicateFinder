@@ -8,10 +8,9 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms
     public partial class Form1 : Form
     {
 
-        private static readonly Logger _log = LogManager.GetCurrentClassLogger();    
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        DupeFinder _dupeFinder = new DupeFinder();
-        FileSearcher _fileSearcher = new FileSearcher();
+        readonly FileSearcher _fileSearcher = new FileSearcher();
 
         public Form1()
         {
@@ -28,6 +27,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms
             _fileSearcher.Reset()
                          .SetDirectory(this.comboBox1.Text)
                          .BuildFileList(FileSearchOption.BgComputeHash);
+
+            _fileSearcher.CompareHashes(HashingType.SizeHashing);
 
             _log.Info("Finished button {0} routine", button1.Name);
             

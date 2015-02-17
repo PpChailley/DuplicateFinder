@@ -61,7 +61,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\DupeFileInfo.cs" />
-    <Compile Include="Model\DuplicateFinder.cs" />
     <Compile Include="Model\FileHash.cs" />
     <Compile Include="Model\FileSearcher.cs" />
     <Compile Include="Model\FileSearchOption.cs" />
