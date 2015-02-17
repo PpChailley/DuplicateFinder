@@ -1,21 +1,23 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using Gbd.Sandbox.DuplicateFinder.Model.Hashing;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
     public class DupeFileInfo
     {
-        readonly FileInfo _fileInfo;
+        public readonly FileInfo FileInfo;
 
         private SizeHash _sizeHash;
         private QuickFileHash _quickFileHash;
         private FullFileHash _fullFileHash;
 
+        
 
         public DupeFileInfo(FileInfo fileInfo)
         {
-            _fileInfo = fileInfo;
+            FileInfo = fileInfo;
         }
 
 
@@ -26,13 +28,13 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 switch (hashingType)
                 {
                     case HashingType.FullHashing:
-                        return _fullFileHash ?? (_fullFileHash = new FullFileHash(_fileInfo));
+                        return _fullFileHash ?? (_fullFileHash = new FullFileHash(FileInfo));
 
                     case HashingType.QuickHashing:
-                        return _quickFileHash ?? (_quickFileHash = new QuickFileHash(_fileInfo));
+                        return _quickFileHash ?? (_quickFileHash = new QuickFileHash(FileInfo));
 
                     case HashingType.SizeHashing:
-                        return _sizeHash ?? (_sizeHash = new SizeHash(_fileInfo));
+                        return _sizeHash ?? (_sizeHash = new SizeHash(FileInfo));
 
                     default:
                         throw new InvalidEnumArgumentException(String.Format("Unsupported ProcessHashing mode {0}",

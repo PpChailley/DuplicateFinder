@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using System.Windows.Forms;
 using Gbd.Sandbox.DuplicateFinder.Model;
+using Gbd.Sandbox.DuplicateFinder.Model.Hashing;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Forms
@@ -23,9 +25,12 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms
         {
             _log.Info("CLICK button '{0}'", button1.Name);
 
+            DupeFinder.Finder.SearchPath = new DirectoryInfo(cbSearchPath.Text);
+
+            // TODO: cleanup this shitty datapath - single responsability !
             _log.Info("Start processing");
             _fileSearcher.Reset()
-                         .SetDirectory(this.comboBox1.Text)
+                         .SetDirectory(DupeFinder.Finder.SearchPath.FullName)
                          .BuildFileList(FileSearchOption.BgComputeHash);
 
             _fileSearcher.CompareHashes(HashingType.SizeHashing);
@@ -34,6 +39,15 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms
 
             _log.Info("Finished button {0} routine", button1.Name);
             
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

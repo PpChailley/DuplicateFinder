@@ -1,6 +1,6 @@
 using System;
 
-namespace Gbd.Sandbox.DuplicateFinder.Model
+namespace Gbd.Sandbox.DuplicateFinder.Model.Hashing
 {
     public abstract class Sha1FileHash: FileHash
     {

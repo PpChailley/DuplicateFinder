@@ -4,12 +4,12 @@ using System.Security.Cryptography;
 using Gbd.Sandbox.DuplicateFinder.External;
 using NLog;
 
-namespace Gbd.Sandbox.DuplicateFinder.Model
+namespace Gbd.Sandbox.DuplicateFinder.Model.Hashing
 {
     public class QuickFileHash: Sha1FileHash, IFileHash
     {
 
-        private static readonly Logger _log = LogManager.GetCurrentClassLogger();    
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();    
 
         private const int BUFFER_SIZE = 4096;
         private const int BUFFER_FIRST_HALF_SIZE = BUFFER_SIZE / 2;
@@ -22,14 +22,14 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public QuickFileHash(FileInfo fileInfo)
         {
-            _log.Debug("Creating QUICK hash for file '{0}' with size {1} bytes", fileInfo.Name, fileInfo.Length);
+            Log.Debug("Creating QUICK hash for file '{0}' with size {1} bytes", fileInfo.Name, fileInfo.Length);
 
             var f = fileInfo.OpenRead();
             byte[] truncatedData = new byte[BUFFER_SIZE];
 
             if (fileInfo.Length < BUFFER_SIZE)
             {
-                _log.Trace("Using full file for hashing");
+                Log.Trace("Using full file for hashing");
 
                 var readSize = f.Read(truncatedData, 0, BUFFER_SIZE);
                 if (readSize != fileInfo.Length)
@@ -40,7 +40,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             }
             else
             {
-                _log.Trace("Using first and last chunk for hashing");
+                Log.Trace("Using first and last chunk for hashing");
 
                 var readSize = f.Read(truncatedData, 0, BUFFER_FIRST_HALF_SIZE);
                 if (readSize != BUFFER_FIRST_HALF_SIZE)
@@ -61,7 +61,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
             Hash = _sha1Engine.ComputeHash(truncatedData);
 
-            _log.Debug("QUICK hash for '{0}' is: {1}", fileInfo.Name, Convert.ToBase64String(Hash));
+            Log.Debug("QUICK hash for '{0}' is: {1}", fileInfo.Name, Convert.ToBase64String(Hash));
         }
 
 
