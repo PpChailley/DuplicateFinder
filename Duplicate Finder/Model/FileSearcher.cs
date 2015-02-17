@@ -19,6 +19,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         private bool _allSizeHashesKnown;
         private bool _allQuickHashesKnown;
         private bool _allFullHashesKnown;
+        private SimilarFileSet _similars;
 
 
         public FileSearcher Reset()
@@ -68,26 +69,41 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             return this;
         }
 
+        public FileSearcher CompareSizeHashes()
+        {
+            var sortedHashes = new SortedList<IFileHash, DupeFileInfo>(_fileList.Count);
+            foreach (var file in _fileList)
+            {
+                sortedHashes.Add(file.SizeHash, file);
+            }
+
+            _similars = new SimilarFileSet(sortedHashes, HashingType.SizeHashing);
+
+            return this;
+        }
+
         private void StartBgHashing()
         {
             BackgroundWorker worker = new BackgroundWorker();
-            worker.DoWork += new DoWorkEventHandler(ComputeAllHashes);
+            worker.DoWork += new DoWorkEventHandler(HashAndCompare);
             // TODO: report progress delegate
             worker.RunWorkerAsync();
         }
 
-        public void ComputeAllHashes(object sender, DoWorkEventArgs e)
+        public void HashAndCompare(object sender, DoWorkEventArgs e)
         {
             if (Thread.CurrentThread.Name == null)
             {
-                Thread.CurrentThread.Name = "ComputeAllHashes";
+                Thread.CurrentThread.Name = "HashAndCompare";
             }
 
-            _log.Info("Start (normally BG) routine ComputeAllHashes");
+            _log.Info("Start (normally BG) routine HashAndCompare");
 
             ComputeSizeHashes();
             ComputeQuickHashes();
             ComputeFullHashes();
+
+
 
             // TODO: report progress
             // TODO: deal with cancellation
@@ -97,36 +113,39 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         {
             _log.Debug("Start computing SIZE hashes for all {0} known files", _fileList.Count);
 
-            foreach (var file in _fileList.Where(f => f.SizeHashKnown == false))
+            foreach (var file in _fileList.Where(f => f.SizeHash == null))
             {
                 file.ComputeSizeHash();
             }
 
             this._allSizeHashesKnown = true;
+            _log.Debug("Done computing SIZE hashes for all {0} known files", _fileList.Count);
         }
 
         private void ComputeQuickHashes()
         {
             _log.Debug("Start computing QUICK hashes for all {0} known files", _fileList.Count);
 
-            foreach (var file in _fileList.Where(f => f.QuickHashKnown == false))
+            foreach (var file in _fileList.Where(f => f.QuickHash == null))
             {
                 file.ComputeQuickHash();
             }
 
             this._allQuickHashesKnown = true;
+            _log.Debug("Done computing QUICK hashes for all {0} known files", _fileList.Count);
         }
 
         private void ComputeFullHashes()
         {
             _log.Debug("Start computing FULL hashes for all {0} known files", _fileList.Count);
 
-            foreach (var file in _fileList.Where(f => f.FullHashKnown == false))
+            foreach (var file in _fileList.Where(f => f.FullHash == null))
             {
                 file.ComputeFullHash();
             }
 
             this._allFullHashesKnown = true;
+            _log.Debug("Done computing FULL hashes for all {0} known files", _fileList.Count);
         }
     }
 }

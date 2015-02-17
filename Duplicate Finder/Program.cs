@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Gbd.Sandbox.DuplicateFinder.Forms.Forms;
+using Gbd.Sandbox.DuplicateFinder.Forms;
 using NLog;
 using NLog.Config;
 
-namespace Gbd.Sandbox.DuplicateFinder.Forms
+namespace Gbd.Sandbox.DuplicateFinder
 {
     static class Program
     {

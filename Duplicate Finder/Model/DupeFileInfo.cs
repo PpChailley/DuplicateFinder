@@ -1,17 +1,18 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
-using Gbd.Sandbox.DuplicateFinder.Forms.Model;
+using System.Security.Policy;
+using Gbd.Sandbox.DuplicateFinder.Model;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
 {
-    class DupeFileInfo
+    public class DupeFileInfo
     {
+        readonly FileInfo _fileInfo;
 
-        FileInfo _fileInfo;
-
-        SizeHash _sizeHash = null;
-        QuickHash _quickHash = null;
-        FullHash _fullHash = null;
+        public SizeHash SizeHash { get; private set; }
+        public QuickHash QuickHash { get; private set; }
+        public FullHash FullHash { get; private set; }
 
 
         public DupeFileInfo(FileInfo fileInfo)
@@ -19,25 +20,35 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             _fileInfo = fileInfo;
         }
 
-        public bool SizeHashKnown { get { return _sizeHash != null;  } }
-        public bool QuickHashKnown { get { return _quickHash != null;  } }
-        public bool FullHashKnown { get { return _fullHash != null;  } }
-
 
 
         public void ComputeSizeHash()
         {
-            _sizeHash = new SizeHash(_fileInfo);
+            SizeHash = new SizeHash(_fileInfo);
         }
         public void ComputeQuickHash()
         {
-            _quickHash = new QuickHash(_fileInfo);
+            QuickHash = new QuickHash(_fileInfo);
         }
         public void ComputeFullHash()
         {
-            _fullHash = new FullHash(_fileInfo);
+            FullHash = new FullHash(_fileInfo);
         }
 
 
+        public object GetHash(HashingType hashingType)
+        {
+            switch (hashingType)
+            {
+                case HashingType.SizeHashing:
+                    return SizeHash;
+                case HashingType.QuickHashing:
+                    return QuickHash;
+                case HashingType.Fullhashing:
+                    return FullHash;
+                default:
+                    throw new InvalidEnumArgumentException(String.Format("Unsupported Hashing mode {0}", hashingType));
+            }
+        }
     }
 }

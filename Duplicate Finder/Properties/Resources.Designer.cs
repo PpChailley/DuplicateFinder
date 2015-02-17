@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gbd.Sandbox.DuplicateFinder.Forms.Properties {
+namespace Gbd.Sandbox.DuplicateFinder.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Forms.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gbd.Sandbox.DuplicateFinder.Forms.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gbd.Sandbox.DuplicateFinder.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

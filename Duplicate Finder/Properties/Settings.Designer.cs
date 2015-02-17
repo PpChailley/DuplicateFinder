@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gbd.Sandbox.DuplicateFinder.Forms.Properties {
+namespace Gbd.Sandbox.DuplicateFinder.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

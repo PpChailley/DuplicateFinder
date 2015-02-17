@@ -1,4 +1,4 @@
-namespace Gbd.Sandbox.DuplicateFinder.Forms.Forms
+namespace Gbd.Sandbox.DuplicateFinder.Forms
 {
     partial class Form1
     {

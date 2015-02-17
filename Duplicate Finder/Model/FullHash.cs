@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
+using Gbd.Sandbox.DuplicateFinder.Model;
 using NLog;
 
 namespace Gbd.Sandbox.DuplicateFinder.Model
@@ -15,7 +16,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public FullHash(FileInfo fileInfo)
         {
-            _log.Debug("Creating FULL hash for '{0}'", fileInfo.Name);
+            _log.Trace("Creating FULL hash for '{0}'", fileInfo.Name);
             _hash = _sha1.ComputeHash(new StreamReader(fileInfo.FullName).BaseStream);
             _log.Debug("FULL Hash for '{0}' is: {1}", fileInfo.Name, Convert.ToBase64String(_hash));
         }

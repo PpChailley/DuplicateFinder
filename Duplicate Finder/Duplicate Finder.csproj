@@ -7,7 +7,7 @@
     <ProjectGuid>{DB45063E-25ED-4126-B8B5-D2FFFC1D764B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gbd.Sandbox.DuplicateFinder.Forms</RootNamespace>
+    <RootNamespace>Gbd.Sandbox.DuplicateFinder</RootNamespace>
     <AssemblyName>Duplicate Finder</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -30,6 +30,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Gbd.Sandbox.DuplicateFinder.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ninject">

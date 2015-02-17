@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Gbd.Sandbox.DuplicateFinder.Model;
 using NLog;
 
-namespace Gbd.Sandbox.DuplicateFinder.Forms.Forms
+namespace Gbd.Sandbox.DuplicateFinder.Forms
 {
     public partial class Form1 : Form
     {
