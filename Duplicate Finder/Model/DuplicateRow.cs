@@ -20,7 +20,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             Checked = false;
         }
 
-
+        public DuplicateRow[] MakeRowsFromDuplicateGroup(grou)
 
         // TODO: Move to lib
         public string GetRelativePath(string filespec, string folder)
