@@ -61,18 +61,22 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\DupeFileInfo.cs" />
-    <Compile Include="Model\FileHash.cs" />
+    <Compile Include="Model\DuplicateData.cs" />
+    <Compile Include="Model\DupeFinder.cs" />
+    <Compile Include="Model\DuplicateRow.cs" />
+    <Compile Include="Model\Hashing\FileHash.cs" />
     <Compile Include="Model\FileSearcher.cs" />
     <Compile Include="Model\FileSearchOption.cs" />
-    <Compile Include="Model\HashingType.cs" />
-    <Compile Include="Model\IFilehash.cs" />
-    <Compile Include="Model\FullFileHash.cs" />
-    <Compile Include="Model\Sha1FileHash.cs" />
+    <Compile Include="Model\Hashing\HashingType.cs" />
+    <Compile Include="Model\Hashing\IFilehash.cs" />
+    <Compile Include="Model\Hashing\FullFileHash.cs" />
+    <Compile Include="Model\SearchOptions.cs" />
+    <Compile Include="Model\Hashing\Sha1FileHash.cs" />
     <Compile Include="Model\SimilarFileSet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\QuickFileHash.cs" />
-    <Compile Include="Model\SizeHash.cs" />
+    <Compile Include="Model\Hashing\QuickFileHash.cs" />
+    <Compile Include="Model\Hashing\SizeHash.cs" />
     <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,6 +109,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
