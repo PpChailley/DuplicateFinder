@@ -83,12 +83,6 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public DupeFinder CompareHashes(HashingType hashingType)
         {
-
-            Log.Warn("*** SLEEPING TO WAIT FOR BG HASH COMPLETION ***");
-            Thread.Sleep(100);
-            Log.Warn("*** WAKING FROM SLEEP ***");
-
-
             Log.Debug("Start building sorted list for {0} hashing", hashingType);
 
             _similars = new SimilarityMap(_searcher.FileList, hashingType);
@@ -99,7 +93,14 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public DupeFinder DoCompareHashedResults()
         {
-            throw new NotImplementedException();
+            CompareHashes(HashingType.SizeHashing);
+
+            foreach (var hashingType in HashingSequence)
+            {
+                _similars.Refine(hashingType);
+            }
+
+            return this;
         }
     }
 }

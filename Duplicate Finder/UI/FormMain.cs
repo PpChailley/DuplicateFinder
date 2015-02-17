@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows.Forms;
 using Gbd.Sandbox.DuplicateFinder.Model;
 using NLog;
@@ -9,25 +10,25 @@ namespace Gbd.Sandbox.DuplicateFinder.UI
     public partial class FormMain : Form
     {
 
-        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         readonly FileSearcher _fileSearcher = new FileSearcher();
 
         public FormMain()
         {
-            _log.Debug("Base Form constructing");
+            Log.Debug("Base Form constructing");
             InitializeComponent();
-            _log.Debug("Base Form constructed");
+            Log.Debug("Base Form constructed");
         }
 
         private void DoSearching(object sender, EventArgs e)
         {
-            _log.Info("CLICK button '{0}'", cbSearch.Name);
+            Log.Info("CLICK button '{0}'", cbSearch.Name);
 
-            _log.Trace("Initializing engine");
+            Log.Trace("Initializing engine");
             DupeFinder finder = DupeFinder.Finder.Initialize(txtSearchPath.Text);
 
-            _log.Trace("Creating Background workers");
+            Log.Trace("Creating Background workers");
             BackgroundWorker bgSearch = new BackgroundWorker();
             bgSearch.DoWork += Workers.WorkerSearchForFiles;
 
@@ -35,14 +36,33 @@ namespace Gbd.Sandbox.DuplicateFinder.UI
             bgHash.DoWork += Workers.WorkerDoHashing;
 
             BackgroundWorker bgGroup = new BackgroundWorker();
-            bgHash.DoWork += Workers.WorkerGroupFiles;
+            bgGroup.DoWork += Workers.WorkerGroupFiles;
+
+
+            bgSearch.RunWorkerAsync();
+            Log.Warn("*** SLEEPING TO WAIT FOR BG /SEARCH/ COMPLETION ***");
+            Thread.Sleep(200);
+            Log.Warn("*** WAKING FROM SLEEP ***");
+
+
+            bgHash.RunWorkerAsync();
+            Log.Warn("*** SLEEPING TO WAIT FOR BG /HASH/ COMPLETION ***");
+            Thread.Sleep(200);
+            Log.Warn("*** WAKING FROM SLEEP ***");
+
+            bgGroup.RunWorkerAsync();
+            Log.Warn("*** SLEEPING TO WAIT FOR BG /GROUP/ COMPLETION ***");
+            Thread.Sleep(200);
+            Log.Warn("*** WAKING FROM SLEEP ***");
+
+
 
 /*
             finder.SearchForFiles();
             finder.
 
             // TODO: cleanup this shitty datapath - single responsability !
-            _log.Info("Start processing");
+            Log.Info("Start processing");
             _fileSearcher.Reset()
                          .SetDirectory(DupeFinder.Finder.SearchPath.FullName)
                          .BuildFileList(FileSearchOption.BgComputeHash);
@@ -52,7 +72,7 @@ namespace Gbd.Sandbox.DuplicateFinder.UI
             _fileSearcher.CompareHashes(HashingType.FullHashing);
  * */
 
-            _log.Info("Finished button {0} routine", cbSearch.Name);
+            Log.Info("Finished button {0} routine", cbSearch.Name);
             
         }
 
