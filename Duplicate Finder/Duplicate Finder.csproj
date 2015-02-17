@@ -61,9 +61,9 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\DupeFileInfo.cs" />
-    <Compile Include="Model\DuplicateData.cs" />
+    <Compile Include="UI\DuplicateData.cs" />
     <Compile Include="Model\DupeFinder.cs" />
-    <Compile Include="Model\DuplicateRow.cs" />
+    <Compile Include="UI\DuplicateRow.cs" />
     <Compile Include="Model\Hashing\FileHash.cs" />
     <Compile Include="Model\FileSearcher.cs" />
     <Compile Include="Model\Hashing\HashingType.cs" />

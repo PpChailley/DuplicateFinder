@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Gbd.Sandbox.DuplicateFinder.Model
+﻿namespace Gbd.Sandbox.DuplicateFinder.UI
 {
     public class DuplicateData
     {

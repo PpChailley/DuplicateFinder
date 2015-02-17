@@ -1,7 +1,8 @@
 using System;
 using System.IO;
+using Gbd.Sandbox.DuplicateFinder.Model;
 
-namespace Gbd.Sandbox.DuplicateFinder.Model
+namespace Gbd.Sandbox.DuplicateFinder.UI
 {
     public class DuplicateRow
     {
