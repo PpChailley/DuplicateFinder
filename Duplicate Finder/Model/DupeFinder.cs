@@ -100,6 +100,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 _similars.Refine(hashingType);
             }
 
+
+            Log.Debug("Final (refined) {0} is: {1}", _similars.GetType().Name, _similars.ToString(1));
             return this;
         }
     }
