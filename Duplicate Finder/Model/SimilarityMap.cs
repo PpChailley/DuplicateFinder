@@ -13,8 +13,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        private HashSet<FileEquivalenceClass> _map = new HashSet<FileEquivalenceClass>();
-        private ICollection<SimilarityMap> _refinedMaps = null;
+        protected HashSet<FileEquivalenceClass> Map = new HashSet<FileEquivalenceClass>();
+        protected ICollection<SimilarityMap> RefinedMaps = null;
 
         public HashingType HashingType { get; private set; }
 
@@ -27,10 +27,10 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         {
             get
             {
-                if (_refinedMaps == null && _map != null)
+                if (RefinedMaps == null && Map != null)
                     return 0;
-                else if (_refinedMaps != null && _map == null)
-                    return _refinedMaps.First().Depth + 1;
+                else if (RefinedMaps != null && Map == null)
+                    return RefinedMaps.First().Depth + 1;
                 else
                     throw new InvalidOperationException("Similarity map should has none or both of map and refined maps");
             }
@@ -41,11 +41,11 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         {
             get
             {
-                if (Depth == 0 && _map != null)
-                    return _map.Sum(equivalenceClass => equivalenceClass.Count);
+                if (Depth == 0 && Map != null)
+                    return Map.Sum(equivalenceClass => equivalenceClass.Count);
 
-                if (_map == null && _refinedMaps != null)
-                    return _refinedMaps.Sum(map => map.Count);
+                if (Map == null && RefinedMaps != null)
+                    return RefinedMaps.Sum(map => map.Count);
 
                 throw new InvalidOperationException("Inconsistent state for SimilarityMap: Data have to be refined or not refined");
             }
@@ -60,6 +60,13 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             BuildFileGroups(hashingType, sortedFiles);
 
         }
+
+        /// <summary>
+        /// For tests only. Do not call
+        /// </summary>
+        [Obsolete]
+        protected SimilarityMap(){}
+
 
         private void BuildFileGroups(HashingType hashingType, IList<DupeFileInfo> sortedFiles)
         {
@@ -81,14 +88,14 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 else
                 {
                     if (currentFileGroup != null)
-                        _map.Add(currentFileGroup);
+                        Map.Add(currentFileGroup);
                     currentFileGroup = new FileEquivalenceClass(hashingType) { file };
                     currentGroupHash = currentHash;
                 }
             }
-            _map.Add(currentFileGroup);
+            Map.Add(currentFileGroup);
 
-            Log.Info("Found {0} different file sets for {1} files using {2} hash type", _map.Count, sortedFiles.Count, hashingType);
+            Log.Info("Found {0} different file sets for {1} files using {2} hash type", Map.Count, sortedFiles.Count, hashingType);
             Log.Debug("SimilarityMap just created is: {0}", this);
 
         }
@@ -109,10 +116,10 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         {
             Log.Info("Refining current similarity map ({0}) with {1}", HashingType, refinedHashingType);
 
-            if (_refinedMaps != null)
+            if (RefinedMaps != null)
             {
                 Log.Debug("Current similarity map is already refined. Refining children");
-                foreach (var refinedMap in _refinedMaps)
+                foreach (var refinedMap in RefinedMaps)
                 {
                     refinedMap.Refine(refinedHashingType);
                 }
@@ -130,17 +137,17 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         private void ProcessRefining(HashingType refinedHashingType)
         {
-            Log.Debug("Refining all {0} FileEquivalenceClass into SimilarityMap", _map.Count);
+            Log.Debug("Refining all {0} FileEquivalenceClass into SimilarityMap", Map.Count);
 
 
-            _refinedMaps = new HashSet<SimilarityMap>();
+            RefinedMaps = new HashSet<SimilarityMap>();
 
-            foreach (var groupToRefine in _map)
+            foreach (var groupToRefine in Map)
             {
-                _refinedMaps.Add(new SimilarityMap(groupToRefine, refinedHashingType));
+                RefinedMaps.Add(new SimilarityMap(groupToRefine, refinedHashingType));
             }
 
-            this._map = null;
+            this.Map = null;
         }
 
 
@@ -172,13 +179,13 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                         "{newLine}{indentOut}({newLine}");
 
 
-            if (_refinedMaps == null)
+            if (RefinedMaps == null)
             {
                 sb.Append("{indentIn}[Not Refined]{newLine}");
             }
             else
             {
-                foreach (var map in _refinedMaps)
+                foreach (var map in RefinedMaps)
                 {
                     sb.Append(map.ToString(indentationLevel + 1));
                 }
@@ -188,13 +195,13 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             sb.Append(indentationLevel == 0 ? " | " : string.Empty);
             
 
-            if (_map == null)
+            if (Map == null)
             {
                 sb.Append("{indentIn}[No Equivalence Class]{newLine}");
             }
             else
             {
-                foreach (FileEquivalenceClass eqClass in _map)
+                foreach (FileEquivalenceClass eqClass in Map)
                 {
                     sb.Append("{indentIn}[" + eqClass.HashingType + ", count=" + eqClass.Count + " - ");
                     foreach (var file in eqClass)

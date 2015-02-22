@@ -22,7 +22,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             Thread.CurrentThread.Name = "WorkerSearchForFiles";
             Log.Info("Start BG routine WorkerSearchForFiles");
 
-            DupeFinder.Finder.SearchForFiles();
+            DupeFinder.Finder.DoSearchForFiles();
         }
 
 

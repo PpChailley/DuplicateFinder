@@ -31,7 +31,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         
 
-        private SimilarityMap _similars;
+        protected SimilarityMap Similars;
         private IDictionary<HashingType, bool> _allHashesDoneByType;
 
 
@@ -51,7 +51,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             return this;
         }
 
-        public DupeFinder SearchForFiles()
+        public DupeFinder DoSearchForFiles()
         {
             _searcher.BuildFileList();
             return this;
@@ -65,6 +65,24 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             }
             return this;
         }
+
+        public DupeFinder DoCompareHashedResults()
+        {
+            CompareHashes(HashingType.SizeHashing);
+
+            foreach (var hashingType in HashingSequence)
+            {
+                Similars.Refine(hashingType);
+            }
+
+
+            Log.Debug("Final (refined) {0} is: {1}", Similars.GetType().Name, Similars.ToString(1));
+            return this;
+        }
+
+
+
+
 
         private void ComputeHashes(HashingType hashingType)
         {
@@ -81,28 +99,14 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             Log.Debug("Done computing {1} hashes for all {0} files", files.Count, hashingType);
         }
 
-        public DupeFinder CompareHashes(HashingType hashingType)
+        private DupeFinder CompareHashes(HashingType hashingType)
         {
             Log.Debug("Start building sorted list for {0} hashing", hashingType);
 
-            _similars = new SimilarityMap(_searcher.FileList, hashingType);
+            Similars = new SimilarityMap(_searcher.FileList, hashingType);
 
             return this;
         }
 
-
-        public DupeFinder DoCompareHashedResults()
-        {
-            CompareHashes(HashingType.SizeHashing);
-
-            foreach (var hashingType in HashingSequence)
-            {
-                _similars.Refine(hashingType);
-            }
-
-
-            Log.Debug("Final (refined) {0} is: {1}", _similars.GetType().Name, _similars.ToString(1));
-            return this;
-        }
     }
 }

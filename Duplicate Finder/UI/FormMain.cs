@@ -58,7 +58,7 @@ namespace Gbd.Sandbox.DuplicateFinder.UI
 
 
 /*
-            finder.SearchForFiles();
+            finder.DoSearchForFiles();
             finder.
 
             // TODO: cleanup this shitty datapath - single responsability !
