@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="Model\FileEquivalenceClass.cs" />
     <Compile Include="Test\IntegrationTests.cs" />
-    <Compile Include="Test\ExpectedResult.cs" />
+    <Compile Include="Test\TestsBase.cs" />
     <Compile Include="Tools\StringinjectExtension.cs" />
     <Compile Include="UI\FormMain.cs">
       <SubType>Form</SubType>
