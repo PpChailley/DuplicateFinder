@@ -29,9 +29,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
                 HashingType.FullHashing
             };
 
-        
 
-        protected SimilarityMap Similars;
+        internal SimilarityMap Similars;
         private IDictionary<HashingType, bool> _allHashesDoneByType;
 
 

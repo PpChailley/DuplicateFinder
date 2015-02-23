@@ -13,8 +13,8 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        protected HashSet<FileEquivalenceClass> Map = new HashSet<FileEquivalenceClass>();
-        protected ICollection<SimilarityMap> RefinedMaps = null;
+        internal HashSet<FileEquivalenceClass> Map = new HashSet<FileEquivalenceClass>();
+        internal ICollection<SimilarityMap> RefinedMaps = null;
 
         public HashingType HashingType { get; private set; }
 
