@@ -13,8 +13,9 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();    
 
-        private DirectoryInfo _baseDirectory;
-        
+        internal DirectoryInfo BaseDirectory;
+        internal SearchOptions Options = new SearchOptions();
+
         //public ICollection<DupeFileInfo> FileList;
         public BlockingCollection<DupeFileInfo> FileList;
 
@@ -30,7 +31,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         private void Initialize()
         {
-            _baseDirectory = null;
+            BaseDirectory = null;
             FileList = new BlockingCollection<DupeFileInfo>();
         }
 
@@ -45,9 +46,10 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         public FileSearcher SetDirectory(DirectoryInfo newDirectory)
         {
-            _baseDirectory = newDirectory;
+            Reset();
+            BaseDirectory = newDirectory;
 
-            Log.Info("FileSearcher now working in directory '{0}'", _baseDirectory.FullName);
+            Log.Info("FileSearcher now working in directory '{0}'", BaseDirectory.FullName);
 
             return this;
         }
@@ -57,8 +59,9 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             Log.Info("Start building file list");
 
             foreach (var curFile in 
-                        _baseDirectory.GetFiles("*", SearchOption.AllDirectories)
-                        .Where(file => file.Exists))
+                BaseDirectory.GetFiles("*", SearchOption.AllDirectories)
+                    .Where(file => file.Exists)
+                    .Where(file => Options.Matches(file)))
             {
                 var info = new DupeFileInfo(curFile);
                 FileList.Add(info);
@@ -72,6 +75,16 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
         }
 
 
-  
+        public void SetDirectory(string newDirectory)
+        {
+            SetDirectory(new DirectoryInfo(newDirectory));
+        }
+
+        public void SetOptions(SearchOptions.Flag flags)
+        {
+            this.Options.Flags = flags;
+        }
+
+        
     }
 }

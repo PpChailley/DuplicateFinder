@@ -1,10 +1,15 @@
+using System;
 using System.Threading;
+using Gbd.Sandbox.DuplicateFinder.Model;
 using NUnit.Framework;
 
 namespace Gbd.Sandbox.DuplicateFinder.Test
 {
     public abstract class TestsBase
     {
+        protected const String TEST_DIR_PATH = @"S:\Dropbox\Visual Studio\Sandboxes\Duplicate Finder\TestDataSet";
+        protected DupeFinder Finder;
+
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -20,6 +25,9 @@ namespace Gbd.Sandbox.DuplicateFinder.Test
         [SetUp]
         public void SetUp()
         {
+            Finder = new DupeFinder();
+            Finder.Initialize(TEST_DIR_PATH);
+
             Initialize();
         }
 
@@ -29,7 +37,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Test
             Thread.Sleep(0);
         }
 
-        protected abstract void Initialize();
+        protected virtual void Initialize() {}
 
 
     }

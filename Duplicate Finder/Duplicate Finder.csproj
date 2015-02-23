@@ -58,7 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\FileEquivalenceClass.cs" />
+    <Compile Include="Test\ConcurrentTests.cs" />
+    <Compile Include="Test\FileSearcherTests.cs" />
     <Compile Include="Test\IntegrationTests.cs" />
+    <Compile Include="Test\SearchOptionsTests.cs" />
     <Compile Include="Test\TestsBase.cs" />
     <Compile Include="Tools\StringinjectExtension.cs" />
     <Compile Include="UI\FormMain.cs">
