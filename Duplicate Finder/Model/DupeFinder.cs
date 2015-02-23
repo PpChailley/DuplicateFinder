@@ -66,24 +66,6 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             return this;
         }
 
-        public DupeFinder DoCompareHashedResults()
-        {
-            CompareHashes(HashingType.SizeHashing);
-
-            foreach (var hashingType in HashingSequence)
-            {
-                Similars.Refine(hashingType);
-            }
-
-
-            Log.Debug("Final (refined) {0} is: {1}", Similars.GetType().Name, Similars.ToString(1));
-            return this;
-        }
-
-
-
-
-
         private void ComputeHashes(HashingType hashingType)
         {
             var files = _searcher.FileList;
@@ -99,7 +81,7 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             Log.Debug("Done computing {1} hashes for all {0} files", files.Count, hashingType);
         }
 
-        private DupeFinder CompareHashes(HashingType hashingType)
+        public DupeFinder CompareHashes(HashingType hashingType)
         {
             Log.Debug("Start building sorted list for {0} hashing", hashingType);
 
@@ -108,5 +90,19 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
             return this;
         }
 
+
+        public DupeFinder DoCompareHashedResults()
+        {
+            CompareHashes(HashingType.SizeHashing);
+
+            foreach (var hashingType in HashingSequence)
+            {
+                Similars.Refine(hashingType);
+            }
+
+
+            Log.Debug("Final (refined) {0} is: {1}", Similars.GetType().Name, Similars.ToString(1));
+            return this;
+        }
     }
 }

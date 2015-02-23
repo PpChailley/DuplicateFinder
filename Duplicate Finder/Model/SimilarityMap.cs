@@ -61,13 +61,6 @@ namespace Gbd.Sandbox.DuplicateFinder.Model
 
         }
 
-        /// <summary>
-        /// For tests only. Do not call
-        /// </summary>
-        [Obsolete]
-        protected SimilarityMap(){}
-
-
         private void BuildFileGroups(HashingType hashingType, IList<DupeFileInfo> sortedFiles)
         {
             Log.Debug("Building similar file sets for {0} files", sortedFiles.Count);
